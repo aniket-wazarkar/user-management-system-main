@@ -17,42 +17,38 @@ describe("POST /users", () => {
 
                 .send({
 
-                    "name": "John",
+                    "name": "Virat",
 
-                    "lastName": "hello",
+                    "lastName": "Kohli",
 
                     "age": 25,
 
-                    "location": "Cityville",
+                    "location": "Gurgaon",
 
                     "interests": ["Reading", "Gaming"],
 
-                    "income": 50000
+                    "income": 500000
 
                 })
 
-                .set("auth", "SecretKey"); // Ensure the header key is "auth" instead of "AUTH_KEY"
- 
-            // Log the response details for debugging
+                .set("auth", "SecretKey"); 
 
             console.log('Response Body:', response.body);
 
             console.log('Response Status:', response.status);
  
-            // Assertions
+           
 
             expect(response.status).toBe(201);
 
-            // Add more assertions based on your expectations for the response body
+           
  
         } catch (error) {
 
-            // Log any errors during the test
 
             console.error('Test error:', error);
 
-            throw error; // Re-throw the error to fail the test
-
+            throw error; 
         }
 
     });

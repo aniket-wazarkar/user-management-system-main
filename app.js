@@ -10,7 +10,6 @@ const PORT = process.env.PORT || 3000;
 const Redis_Port = 6379;
 
 // Connect to MongoDB
-// mongoose.connect('mongodb+srv://aniketwazarkar5:password@987@usermanagement.oxautsk.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect('mongodb+srv://root:root@usermanagement.oxautsk.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
