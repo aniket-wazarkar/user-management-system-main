@@ -16,15 +16,13 @@ mongoose.connect('mongodb+srv://root:root@usermanagement.oxautsk.mongodb.net/tes
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-//Connect to Redis
-// const client = redis.createClient();
-// client.on('connect', () => {
-//   console.log('Connected to Redis');
-// });
 
 app.use(express.json());
 app.use('/api/users', userRoutes);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
+
+
+module.exports = { app, server};
