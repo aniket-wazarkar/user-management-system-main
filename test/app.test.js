@@ -32,7 +32,7 @@ describe('POST /api/users', () => {
 
     
     expect(response.status).toBe(201);
-   // expect(response.body).toHaveProperty('userId', 'userId'); // Replace with the actual user ID
+   // expect(response.body).toHaveProperty('userId', 'userId');
   });
 
   
@@ -55,7 +55,7 @@ describe('GET /api/users', () => {
             .set('auth', 'invalid_key');
  
         assert.strictEqual(response.status, 401);
-        // assert.strictEqual(response.body.error, 'notallowed');
+        
     });
  
 });
