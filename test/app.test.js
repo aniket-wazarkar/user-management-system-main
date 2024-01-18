@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../app'); 
+const app = require('../app.js');
 
 describe('User Management API', () => {
   describe('GET /users', () => {
@@ -40,7 +40,7 @@ describe('User Management API', () => {
     it('should update a specific user by ID', async () => {
       const userId = '65a7b5c39bb5b3fb2d5051e0'; 
       const updatedUser = {
-        name: 'Updated Name',
+        name: 'MS Dhoni',
         
       };
 
