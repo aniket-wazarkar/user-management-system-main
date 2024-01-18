@@ -1,56 +1,61 @@
-
 const request = require('supertest');
-const client = require('../redisClient');
-const mongoose = require("mongoose");
-const user = require('../models/user')
-const app = require('../app');
- 
-describe("POST /users", () => {
+const app = require('../app'); 
 
-    it('should return 200 when user is added', async () => {
-
-        try {
-
-            const response = await request(app)
-
-                .post("/api/users")
-
-                .send({
-
-                    "name": "Virat",
-
-                    "lastName": "Kohli",
-
-                    "age": 25,
-
-                    "location": "Gurgaon",
-
-                    "interests": ["Reading", "Gaming"],
-
-                    "income": 500000
-
-                })
-
-                .set("auth", "SecretKey"); 
-
-            console.log('Response Body:', response.body);
-
-            console.log('Response Status:', response.status);
- 
-           
-
-            expect(response.status).toBe(201);
-
-           
- 
-        } catch (error) {
-
-
-            console.error('Test error:', error);
-
-            throw error; 
-        }
-
+describe('User Management API', () => {
+  describe('GET /users', () => {
+    it('should return a list of users', async () => {
+      const res = await request(app).get('/users');
+      expect(res.status).toBe(200);
+      expect(res.body).toBeInstanceOf(Array);
     });
+  });
 
+  describe('POST /users', () => {
+    it('should create a new user', async () => {
+      const user = {
+        name: 'John Doe',
+        lastName: 'Doe',
+        age: 25,
+        location: 'City',
+        interests: ['Coding', 'Reading'],
+        income: 50000,
+      };
+
+      const res = await request(app).post('/users').send(user);
+      expect(res.status).toBe(201);
+      expect(res.body).toHaveProperty('userId');
+    });
+  });
+
+  describe('GET /users/:userId', () => {
+    it('should get a specific user by ID', async () => {
+      const userId = '65a7b5c39bb5b3fb2d5051e0'; 
+      const res = await request(app).get(`/users/${userId}`);
+      expect(res.status).toBe(200);
+      expect(res.body).toBeInstanceOf(Object);
+    });
+  });
+
+  describe('PUT /users/:userId', () => {
+    it('should update a specific user by ID', async () => {
+      const userId = '65a7b5c39bb5b3fb2d5051e0'; 
+      const updatedUser = {
+        name: 'Updated Name',
+        
+      };
+
+      const res = await request(app).put(`/users/${userId}`).send(updatedUser);
+      expect(res.status).toBe(200);
+      expect(res.body).toBeInstanceOf(Object);
+    });
+  });
+
+  describe('DELETE /users/:userId', () => {
+    it('should delete a specific user by ID', async () => {
+      const userId = '65a7b5c39bb5b3fb2d5051e0'; 
+      const res = await request(app).delete(`/users/${userId}`);
+      expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty('message', 'User deleted successfully');
+    });
+  });
 });

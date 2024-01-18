@@ -1,5 +1,4 @@
 // app.js
-
 const express = require('express');
 const mongoose = require('mongoose');
 const redis = require('redis');
@@ -14,7 +13,6 @@ mongoose.connect('mongodb+srv://root:root@usermanagement.oxautsk.mongodb.net/tes
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 
 app.use(express.json());
 app.use('/api/users', userRoutes);
