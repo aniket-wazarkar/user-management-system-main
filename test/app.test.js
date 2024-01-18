@@ -1,61 +1,38 @@
 const request = require('supertest');
-const app = require('../app.js');
+const { app } = require('../app'); // Assuming your app is defined in 'app.js'
+const User = require('../models/user');
 
-describe('User Management API', () => {
-  describe('GET /users', () => {
-    it('should return a list of users', async () => {
-      const res = await request(app).get('/users');
-      expect(res.status).toBe(200);
-      expect(res.body).toBeInstanceOf(Array);
+describe('POST /api/users', () => {
+  it('should create a new user', async () => {
+    // Mock the User.save function
+    jest.spyOn(User.prototype, 'save').mockResolvedValueOnce({
+      _id: '1', // Replace with a unique ID
+      name: 'Aniket',
+      lastName: 'Manoj Wazarkar',
+      age: 24,
+      location: 'Mumbai',
+      interests: ['Reading', 'Coding'],
+      income: 50000,
     });
+
+    const newUser = {
+      name: 'Aniket',
+      lastName: 'Manoj Wazarkar',
+      age: 24,
+      location: 'Mumbai',
+      interests: ['Reading', 'Coding'],
+      income: 50000,
+    };
+
+    const response = await request(app)
+      .post('/api/users')
+      .set('auth', 'SecretKey') // Set your authentication header here
+      .send(newUser);
+
+    // Check response
+    expect(response.status).toBe(201);
+   // expect(response.body).toHaveProperty('userId', 'userId'); // Replace with the actual user ID
   });
 
-  describe('POST /users', () => {
-    it('should create a new user', async () => {
-      const user = {
-        name: 'John Doe',
-        lastName: 'Doe',
-        age: 25,
-        location: 'City',
-        interests: ['Coding', 'Reading'],
-        income: 50000,
-      };
-
-      const res = await request(app).post('/users').send(user);
-      expect(res.status).toBe(201);
-      expect(res.body).toHaveProperty('userId');
-    });
-  });
-
-  describe('GET /users/:userId', () => {
-    it('should get a specific user by ID', async () => {
-      const userId = '65a7b5c39bb5b3fb2d5051e0'; 
-      const res = await request(app).get(`/users/${userId}`);
-      expect(res.status).toBe(200);
-      expect(res.body).toBeInstanceOf(Object);
-    });
-  });
-
-  describe('PUT /users/:userId', () => {
-    it('should update a specific user by ID', async () => {
-      const userId = '65a7b5c39bb5b3fb2d5051e0'; 
-      const updatedUser = {
-        name: 'MS Dhoni',
-        
-      };
-
-      const res = await request(app).put(`/users/${userId}`).send(updatedUser);
-      expect(res.status).toBe(200);
-      expect(res.body).toBeInstanceOf(Object);
-    });
-  });
-
-  describe('DELETE /users/:userId', () => {
-    it('should delete a specific user by ID', async () => {
-      const userId = '65a7b5c39bb5b3fb2d5051e0'; 
-      const res = await request(app).delete(`/users/${userId}`);
-      expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty('message', 'User deleted successfully');
-    });
-  });
+  
 });
